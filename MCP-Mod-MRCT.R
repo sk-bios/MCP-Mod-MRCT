@@ -59,12 +59,12 @@ DFMRCT = function(rep,rep2,sigma,tau1,tau2,tau3,dose,maxeff,s,alpha,pi = 0.5){
   LL = optContr(models, w = n)
   contMat = LL$contMat
   
-  deltaMat <- t(contMat) %*% muMat
+  muMat <- getResp(altmodels)
   covMat <- t(contMat) %*% S %*% contMat
   den <- sqrt(diag(covMat))
-  deltaMat <- deltaMat/den
   corMat <- cov2cor(covMat)
-  muMat <- getResp(altmodels)
+  deltaMat <- t(contMat) %*% muMat
+  deltaMat <- deltaMat/den
   critV = qmvnorm(1 - alpha,tail = c("lower.tail"),corr = corMat)$quantile
   power = powMCT(contMat = LL, alpha = alpha, altModels = altmodels, S = S, df = Inf, alternative = c("one.sided"))
 
