@@ -91,17 +91,17 @@ DFMRCT = function(rep,rep2,sigma,tau1,tau2,tau3,dose,maxeff,s,alpha,pi = 0.5){
 
   # Consistency assessment
   muMat <- getResp(altmodels)
-  num.m1 = (1 - pi) * t(LLprime$contMat) %*% muMat
-  den.m1.1 = (1 - pi * f[1])^2 * diag(t(LLprime$contMat) %*% A[,,1] %*% LLprime$contMat)
+  num.m1 = (1 - pi) * t(LL$contMat) %*% muMat
+  den.m1.1 = (1 - pi * f[1])^2 * diag(t(LL$contMat) %*% A[,,1] %*% LL$contMat)
   den.m1.2 = rep(0,length(den.m1.1))
   for (i in 2:s){
-    den.m1.2 = den.m1.2 + pi^2 * f[i]^2 * diag(t(LLprime$contMat) %*% A[,,i] %*% LLprime$contMat)
+    den.m1.2 = den.m1.2 + pi^2 * f[i]^2 * diag(t(LL$contMat) %*% A[,,i] %*% LL$contMat)
   }
   m1= pnorm(num.m1 / sqrt(den.m1.1 + den.m1.2)) * 100
   
   m2 = 1
   for (i in 1:s){
-    m2 = m2 * pnorm(t(LLprime$contMat) %*% muMat / sqrt(diag(t(LLprime$contMat) %*% A[,,i] %*% LLprime$contMat)))    
+    m2 = m2 * pnorm(t(LL$contMat) %*% muMat / sqrt(diag(t(LL$contMat) %*% A[,,i] %*% LL$contMat)))    
   }
   m2 = m2 *100
   
